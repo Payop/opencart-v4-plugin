@@ -1,0 +1,161 @@
+{{ header }}{{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="float-end">
+                <button type="submit" form="form-payment" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary">
+                    <i class="fa fa-save"></i>
+                </button>
+                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-light">
+                    <i class="fa fa-reply"></i>
+                </a>
+            </div>
+            <h1>{{ heading_title }}</h1>
+            <ol class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {% if error_warning %}
+            <div class="alert alert-danger alert-dismissible">
+                <i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+        {% endif %}
+
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-pencil"></i> {{ text_edit }}
+            </div>
+            <div class="card-body">
+                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-payment" class="form-horizontal">
+                    <div class="row mb-3 required">
+                        <label class="col-sm-2 col-form-label" for="entry-public_id">
+                            {{ entry_public_id }}
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" name="payment_payop_public_id"
+                                    value="{{ payment_payop_public_id }}"
+                                    placeholder="{{ entry_public_id }}"
+                                    autocomplete="off"
+                                    id="entry-public_id" class="form-control"/>
+                            {% if error_public_id %}
+                                <div class="text-danger">{{ error_public_id }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 required">
+                        <label class="col-sm-2 col-form-label" for="entry-secret_key">
+                            {{ entry_secret_key }}
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" name="payment_payop_secret_key"
+                                    value="{{ payment_payop_secret_key }}"
+                                    placeholder="{{ entry_secret_key }}"
+                                    autocomplete="off"
+                                    id="entry-secret_key" class="form-control"/>
+                            {% if error_secret_key %}
+                                <div class="text-danger">{{ error_secret_key }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="entry-ipn_url">
+                            IPN URL
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                    value="{{ ipn_url }}"                                       
+                                    readonly
+                                    id="entry-ipn_url" class="form-control"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-default" onclick="copyToClipboard('entry-ipn_url')">
+                                <i class="fa fa-clipboard"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="entry-order_status_wait">
+                            {{ entry_order_status_wait }}
+                        </label>
+                        <div class="col-sm-10">
+                            <select name="payment_payop_order_status_wait" id="entry-order_status_wait" class="form-select">
+                                {% for status in order_statuses %}
+                                    <option value="{{ status.order_status_id }}" {% if payment_payop_order_status_wait == status.order_status_id %}selected{% endif %}>{{ status.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="entry-order_status_success">
+                            {{ entry_order_status_success }}
+                        </label>
+                        <div class="col-sm-10">
+                            <select name="payment_payop_order_status_success" id="entry-order_status_success" class="form-select">
+                                {% for status in order_statuses %}
+                                    <option value="{{ status.order_status_id }}" {% if payment_payop_order_status_success == status.order_status_id %}selected{% endif %}>{{ status.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="entry-order_status_error">
+                            {{ entry_order_status_error }}
+                        </label>
+                        <div class="col-sm-10">
+                            <select name="payment_payop_order_status_error" id="entry-order_status_error" class="form-control">
+                                {% for status in order_statuses %}
+                                    <option value="{{ status.order_status_id }}" {% if payment_payop_order_status_error == status.order_status_id %}selected{% endif %}>{{ status.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="entry-sort_order">
+                            {{ entry_sort_order }}
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" name="payment_payop_sort_order"
+                                       value="{{ payment_payop_sort_order }}"
+                                       placeholder="0"
+                                       autocomplete="off"
+                                       id="entry-sort_order" class="form-control"/>
+                                {% if error_sort_order %}
+                                    <div class="text-danger">{{ error_sort_order }}</div>
+                                {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="entry-status">{{ entry_status }}</label>
+                            <div class="col-sm-10">
+                                <select name="payment_payop_status" id="entry-status" class="form-select">
+                                    <option value="1" {% if payment_payop_status %}selected{% endif %}>{{ text_enabled }}</option>
+                                    <option value="0" {% if not payment_payop_status %}selected{% endif %}>{{ text_disabled }}</option>
+                                </select>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{ footer }}
+
+<script>
+function copyToClipboard(elementId) {
+    var copyText = document.getElementById(elementId);
+    copyText.select();
+    document.execCommand("copy");
+}
+</script>
