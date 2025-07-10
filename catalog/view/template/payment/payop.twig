@@ -1,0 +1,33 @@
+<div class="buttons">
+    <div class="pull-right">
+        <button type="button" class="btn btn-primary" id="button_pay" onclick="payop()">
+            {{ button_pay }}
+        </button>
+    </div>
+</div>
+
+<script>
+    async function payop() {
+        const button = document.getElementById('button_pay');
+        button.disabled = true;
+
+        try {
+            const response = await fetch('{{ payop_url }}', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            window.location.href = data;
+        } catch (error) {
+            console.error('Payop error:', error);
+            alert("Error occurred while processing payment.");
+        } finally {
+            button.disabled = false;
+        }
+    }
+</script>
