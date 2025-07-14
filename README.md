@@ -15,12 +15,12 @@ Add the ability to accept payments in Opencart v4 via Payop.com.
 ### 1. Download the Latest Version
 - Go to the [latest release](https://github.com/Payop/opencart-v4-plugin/releases).  
 - Select the latest version from the list of releases (the one at the top is the most recent).  
-- Download the `payop_payment.ocmod.zip` file.  
+- Download the `payop.ocmod.zip` file.  
 
 ### 2. Install the Module via OpenCart Admin Panel
 1. Log in to your **OpenCart admin panel**.  
 2. Navigate to **Extensions → Installer**.  
-3. Click the **Upload** button and select the downloaded `payop_payment.ocmod.zip` file.  
+3. Click the **Upload** button and select the downloaded `payop.ocmod.zip` file.  
 4. Wait for the installation to complete.  
 
 ### 3. Enable and Configure the Module

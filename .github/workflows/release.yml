@@ -15,10 +15,10 @@ jobs:
 
       - name: Create OCMOD ZIP archive
         run: |
-          zip -r payop_payment.ocmod.zip admin/ catalog/ install.json README.md LICENSE
+          zip -r payop.ocmod.zip admin/ catalog/ install.json README.md LICENSE
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: payop_payment.ocmod.zip
+          files: payop.ocmod.zip
           token: ${{ secrets.GITHUB_TOKEN }}
