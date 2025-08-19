@@ -95,15 +95,15 @@ class Payop extends \Opencart\System\Engine\Controller {
 
 	public function install() {
 		$this->load->model('extension/payop/payment/payop');
-		if (method_exists($this->model_extension_payment_payop, 'install')) {
-			$this->model_extension_payment_payop->install();
+		if (method_exists($this->model_extension_payop_payment_payop, 'install')) {
+			$this->model_extension_payop_payment_payop->install();
 		}
 	}
 
 	public function uninstall() {
 		$this->load->model('extension/payop/payment/payop');
-		if (method_exists($this->model_extension_payment_payop, 'uninstall')) {
-			$this->model_extension_payment_payop->uninstall();
+		if (method_exists($this->model_extension_payop_payment_payop, 'uninstall')) {
+			$this->model_extension_payop_payment_payop->uninstall();
 		}
 	}
 }
