@@ -3,7 +3,7 @@ name: Build and Release OCMOD ZIP
 on:
   push:
     tags:
-      - 'v*'  # Запуск при пуше тега, например v1.0.0
+      - 'v*'
 
 jobs:
   build:
@@ -15,7 +15,8 @@ jobs:
 
       - name: Create OCMOD ZIP archive
         run: |
-          zip -r payop.ocmod.zip admin/ catalog/ install.json README.md LICENSE
+          zip -r payop.ocmod.zip admin/ catalog/ install.json README.md CHANGELOG.md LICENSE \
+            -x '*/.DS_Store' '*/._*' '*/__MACOSX/*' '*.bak' '*.swp' '*~'
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

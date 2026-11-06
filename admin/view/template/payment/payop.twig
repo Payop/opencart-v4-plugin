@@ -38,7 +38,7 @@
                         </label>
                         <div class="col-sm-10">
                             <input type="text" name="payment_payop_public_id"
-                                    value="{{ payment_payop_public_id }}"
+                                    value="{{ payment_payop_public_id|escape('html_attr') }}"
                                     placeholder="{{ entry_public_id }}"
                                     autocomplete="off"
                                     id="entry-public_id" class="form-control"/>
@@ -54,7 +54,7 @@
                         </label>
                         <div class="col-sm-10">
                             <input type="text" name="payment_payop_secret_key"
-                                    value="{{ payment_payop_secret_key }}"
+                                    value="{{ payment_payop_secret_key|escape('html_attr') }}"
                                     placeholder="{{ entry_secret_key }}"
                                     autocomplete="off"
                                     id="entry-secret_key" class="form-control"/>
@@ -63,6 +63,32 @@
                             {% endif %}
                         </div>
                     </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="entry-project-id">{{ entry_project_id }}</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="payment_payop_project_id" value="{{ payment_payop_project_id|escape('html_attr') }}" id="entry-project-id" class="form-control"/>
+                            <div class="form-text">{{ help_project_id }}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="entry-jwt-token">{{ entry_jwt_token }}</label>
+                        <div class="col-sm-10">
+                            <input type="password" name="payment_payop_jwt_token" value="{{ payment_payop_jwt_token|escape('html_attr') }}" id="entry-jwt-token" autocomplete="new-password" class="form-control"/>
+                            <div class="form-text">{{ help_jwt_token }}</div>
+                        </div>
+                    </div>
+                    <fieldset class="mb-4" id="payop-buttons-panel">
+                        <legend>{{ text_payment_buttons }}</legend>
+                        <p>{{ help_payment_buttons }}</p>
+                        <button type="button" id="payop-load-methods" class="btn btn-light mb-3">{{ button_load_methods }}</button>
+                        <div id="payop-methods-message" role="status" aria-live="polite"></div>
+                        {% if error_buttons %}<div class="alert alert-danger">{{ error_buttons }}</div>{% endif %}
+                        <input type="hidden" name="payment_payop_buttons_json" id="payop-buttons-json" value="{{ payment_buttons_json|escape('html_attr') }}"/>
+                        <div id="payop-button-rows"></div>
+                        <button type="button" id="payop-add-button" class="btn btn-primary">{{ button_add }}</button>
+                        <noscript><p>{{ text_buttons_javascript }}</p></noscript>
+                    </fieldset>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label" for="entry-ipn_url">
@@ -159,3 +185,6 @@ function copyToClipboard(elementId) {
     document.execCommand("copy");
 }
 </script>
+
+<script type="application/json" id="payop-button-settings">{"buttons":{{ payment_buttons_json|raw }},"languages":{{ languages_json|raw }},"labels":{{ button_labels_json|raw }},"methodsUrl":{{ methods_url_json|raw }}}</script>
+<script src="../extension/payop/admin/view/javascript/payop.js"></script>

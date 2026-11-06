@@ -1,33 +1,23 @@
-<div class="buttons">
-    <div class="pull-right">
-        <button type="button" class="btn btn-primary" id="button_pay" onclick="payop()">
-            {{ button_pay }}
-        </button>
+<div class="payop-payment-option">
+    <p><strong>{{ payop_title|escape }}</strong></p>
+    {% if payop_description %}<p>{{ payop_description|escape }}</p>{% endif %}
+    {% if payop_revolut_fields %}
+    <fieldset id="payop-revolut-fields" class="mb-3">
+        <p>{{ text_revolut_optional|escape }}</p>
+        <label for="payop-date-of-birth" class="form-label">{{ entry_date_of_birth|escape }}</label>
+        <input type="text" id="payop-date-of-birth" class="form-control mb-2" placeholder="dd.mm.yyyy" maxlength="10" autocomplete="bday" />
+        <label for="payop-iban-type" class="form-label">{{ entry_iban_type|escape }}</label>
+        <select id="payop-iban-type" class="form-select">
+            <option value="">{{ text_select_iban|escape }}</option>
+            <option value="GB"{% if payop_iban_type == 'GB' %} selected{% endif %}>{{ text_iban_gb|escape }}</option>
+            <option value="NOT_GB"{% if payop_iban_type == 'NOT_GB' %} selected{% endif %}>{{ text_iban_not_gb|escape }}</option>
+        </select>
+    </fieldset>
+    {% endif %}
+    <div class="buttons text-end">
+        <button type="button" class="btn btn-primary" id="button_pay"
+                data-payop-url="{{ payop_url|escape('html_attr') }}"
+                data-payop-error="{{ error_payment|escape('html_attr') }}">{{ button_pay|escape }}</button>
     </div>
 </div>
-
-<script>
-    async function payop() {
-        const button = document.getElementById('button_pay');
-        button.disabled = true;
-
-        try {
-            const response = await fetch('{{ payop_url }}', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            window.location.href = data;
-        } catch (error) {
-            console.error('Payop error:', error);
-            alert("Error occurred while processing payment.");
-        } finally {
-            button.disabled = false;
-        }
-    }
-</script>
+<script src="extension/payop/catalog/view/javascript/payop.js"></script>
