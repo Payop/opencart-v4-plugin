@@ -183,6 +183,7 @@ $tests['exact decimals, significant precision and currency case'] = function () 
 $tests['create invoice with historic conversion rate and persisted snapshot'] = function () {
 	$h = new Harness(); $h->api = ['status' => 200, 'error' => 0, 'headers' => ['identifier' => 'invoice-new'], 'body' => '{}'];
 	$h->pay();
+	check(in_array('x-integration-tag: opencart4', $h->requests[0]['headers'], true), 'Missing invoice creation integration tag');
 	$request = json_decode($h->requests[0]['body'], true);
 	check($request['order']['amount'] === '10.0000', 'Wrong converted amount');
 	check($h->currency->last === ['8', 'EUR', '1.25', false], 'Did not use saved rate');

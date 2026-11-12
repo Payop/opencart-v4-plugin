@@ -352,7 +352,7 @@ class Payop extends \Opencart\System\Engine\Controller {
 			$this->diagnostic('Missing API settings', (int)$request['order']['id']);
 			return '';
 		}
-		$response = $this->requestApi('POST', 'https://api.payop.com/v1/invoices/create', ['Accept: application/json', 'Content-Type: application/json'], json_encode($request));
+		$response = $this->requestApi('POST', 'https://api.payop.com/v1/invoices/create', ['Accept: application/json', 'Content-Type: application/json', 'x-integration-tag: opencart4'], json_encode($request));
 		if ($response['error'] || $response['status'] < 200 || $response['status'] >= 300 || empty($response['headers']['identifier'])) {
 			// Translate the known minimum-amount rejection without exposing raw API errors.
 			$body = json_decode($response['body'], true);
