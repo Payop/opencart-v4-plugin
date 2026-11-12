@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+
+- Send the OpenCart 4 integration tag when creating Payop invoices.
+
 ## 1.1.0
 
 - Show GB and Europe as Revolut IBAN country choices and preselect based on the order currency. Send the choice only when GB matches GBP or Europe matches EUR.
